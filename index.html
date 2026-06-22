@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri-Intel Brief: Climate Crisis 2026</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['DM Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { 
+                        brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 900: '#14532d', 950: '#052e16' },
+                        alert: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' }
+                    },
+                    borderWidth: { '3': '3px' },
+                    boxShadow: { 'neo': '4px 4px 0px 0px rgba(0,0,0,1)', 'neo-lg': '8px 8px 0px 0px rgba(0,0,0,1)', 'neo-dark': '4px 4px 0px 0px rgba(255,255,255,0.2)' },
+                    animation: { 'spin-slow': 'spin 3s linear infinite', 'loading-bar': 'loading 2s ease-in-out infinite' },
+                    keyframes: { loading: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(300%)' } } }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; scroll-behavior: smooth; }
+        .dark body { background-color: #09090b; color: #f4f4f5; }
+        .neo-shadow { box-shadow: 4px 4px 0px 0px rgba(0,0,0,1); transition: all 0.2s; }
+        .dark .neo-shadow { box-shadow: 4px 4px 0px 0px rgba(63,63,70,1); }
+        .neo-shadow:hover { box-shadow: 2px 2px 0px 0px rgba(0,0,0,1); transform: translate(2px, 2px); }
+        .dark .neo-shadow:hover { box-shadow: 2px 2px 0px 0px rgba(63,63,70,1); }
+        .brutal-border { border: 3px solid #09090b; }
+        .dark .brutal-border { border: 3px solid #3f3f46; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-left: 2px solid #09090b; }
+        .dark ::-webkit-scrollbar-track { background: #09090b; border-left: 2px solid #3f3f46; }
+        ::-webkit-scrollbar-thumb { background: #09090b; }
+        .dark ::-webkit-scrollbar-thumb { background: #52525b; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        
+        .tab-btn.active { background-color: #09090b; color: white; border-bottom-color: transparent !important; }
+        .dark .tab-btn.active { background-color: #f4f4f5; color: #09090b; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .neo-shadow, .brutal-border { box-shadow: none !important; border: 1px solid #ddd !important; }
+            .dark { background: white !important; color: black !important; }
+            * { color: black !important; }
+            #live-clock { display: none; }
+        }
+    </style>
+</head>
+<body class="text-zinc-900 transition-colors duration-200">
+
+    <svg width="0" height="0" class="hidden">
+        <defs>
+            <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></symbol>
+            <symbol id="icon-wind" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></symbol>
+            <symbol id="icon-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></symbol>
+            <symbol id="icon-droplet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></symbol>
+            <symbol id="icon-bug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><rect width="8" height="14" x="8" y="6" rx="4"></rect><path d="m19 7-3 2"></path><path d="m5 7 3 2"></path><path d="m19 19-3-2"></path><path d="m5 19 3-2"></path><path d="M20 13h-4"></path><path d="M4 13h4"></path><path d="m10 4 1 2"></path><path d="m14 4-1 2"></path></symbol>
+            <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></symbol>
+            <symbol id="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 12 12 17 22 12"></polyline><polyline points="2 17 12 22 22 17"></polyline></symbol>
+        </defs>
+    </svg>
+
+    <div class="fixed top-0 w-full z-50 bg-red-600 text-white border-b-4 border-red-900 font-mono text-xs overflow-hidden no-print shadow-md">
+        <div class="flex items-center px-4 py-2">
+            <div class="flex items-center gap-2 mr-6 font-black text-white">
+                <div class="w-2 h-2 rounded-full bg-white animate-pulse"></div> CLIMATE ALERT
+            </div>
+            <div class="flex-1 overflow-hidden whitespace-nowrap">
+                <div class="inline-block animate-[loading_20s_linear_infinite] font-bold tracking-wider">
+                    [ENSO: MODERATE EL NINO] &nbsp;&nbsp;|&nbsp;&nbsp; [SST ANOMALY: +1.5°C] &nbsp;&nbsp;|&nbsp;&nbsp; [TYPHOON MEKKHALA: CAT 3 - 70 KNOTS] &nbsp;&nbsp;|&nbsp;&nbsp; [FOREST FIRE HOTSPOTS: 2,312] &nbsp;&nbsp;|&nbsp;&nbsp; [RISK LEVEL: SEVERE]
+                </div>
+            </div>
+            <div id="live-clock" class="ml-6 font-black text-white">Loading...</div>
+        </div>
+    </div>
+
+    <div class="max-w-[1400px] mx-auto px-4 pt-20 pb-12">
+        <header class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative">
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-red-500/10 dark:bg-red-500/5 rounded-full blur-3xl -z-10"></div>
+            
+            <div class="border-l-8 border-red-600 pl-6">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="bg-red-600 text-white px-2 py-1 text-xs font-black uppercase tracking-widest">Special Report</span>
+                    <span class="text-zinc-500 dark:text-zinc-400 font-mono text-sm font-bold flex items-center gap-1">
+                        June 22, 2026
+                    </span>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-display font-black text-zinc-950 dark:text-white uppercase tracking-tighter leading-none mb-3">
+                    CLIMATE <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-500">CRISIS 2026.</span>
+                </h1>
+                <p class="text-zinc-600 dark:text-zinc-300 font-medium text-lg max-w-2xl">
+                    Deep-Dive Analysis: The convergence of the persistent <strong>El Niño threat</strong> and <strong>Cyclone Mekkhala</strong> (Category 3) and its impact on food systems, pest pressure, and Indonesia's agricultural resilience.
+                </p>
+            </div>
+            
+            <div class="flex flex-col items-end gap-3 no-print">
+                <div class="bg-white dark:bg-zinc-900 border-3 border-zinc-950 dark:border-zinc-700 p-2 flex gap-2">
+                    <button id="theme-toggle" class="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors border-2 border-transparent">
+                        <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                    <button id="print-document-btn" class="px-4 py-2 bg-red-600 text-white font-bold text-sm uppercase tracking-wider hover:bg-red-700 transition-colors">Print PDF</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="bg-white dark:bg-zinc-900 p-5 brutal-border neo-shadow flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2 bg-orange-100 text-orange-600 rounded"><svg class="w-6 h-6"><use href="#icon-fire"></use></svg></div>
+                    <span class="text-[10px] font-black bg-red-600 text-white px-2 py-1 uppercase">Moderate</span>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">El Niño Status</h3>
+                    <p class="text-2xl font-black mb-1">15 Months</p>
+                    <p class="text-xs font-medium text-zinc-600 dark:text-zinc-400">Forecast until Early 2027 (98% Prob)</p>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-zinc-900 p-5 brutal-border neo-shadow flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2 bg-blue-100 text-blue-600 rounded"><svg class="w-6 h-6"><use href="#icon-wind"></use></svg></div>
+                    <span class="text-[10px] font-black bg-red-600 text-white px-2 py-1 uppercase">Category 3</span>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">Cyclone Mekkhala</h3>
+                    <p class="text-2xl font-black mb-1">70 Knots</p>
+                    <p class="text-xs font-medium text-zinc-600 dark:text-zinc-400">Philippine Sea (Wave Impact on ID)</p>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-900 p-5 brutal-border neo-shadow flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2 bg-red-100 text-red-600 rounded"><svg class="w-6 h-6"><use href="#icon-alert"></use></svg></div>
+                    <span class="text-[10px] font-black bg-red-600 text-white px-2 py-1 uppercase">+676% YoY</span>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">Forest Fires (Jan-May)</h3>
+                    <p class="text-2xl font-black mb-1">81,077 Ha</p>
+                    <p class="text-xs font-medium text-zinc-600 dark:text-zinc-400">2,312 Hotspots (Dominantly Riau, W. Kal)</p>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-900 p-5 brutal-border neo-shadow flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2 bg-teal-100 text-teal-600 rounded"><svg class="w-6 h-6"><use href="#icon-droplet"></use></svg></div>
+                    <span class="text-[10px] font-black bg-red-600 text-white px-2 py-1 uppercase">Irrigation Crisis</span>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1">Crop Failure Threat</h3>
+                    <p class="text-2xl font-black mb-1">Alert Level 1</p>
+                    <p class="text-xs font-medium text-zinc-600 dark:text-zinc-400">Rice 25 DAP Yellowing (Lampung, W. Java)</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="mb-10 border-b-3 border-zinc-950 dark:border-zinc-700 flex overflow-x-auto no-scrollbar no-print sticky top-10 bg-[#f8fafc] dark:bg-[#09090b] z-40">
+            <button class="tab-btn active px-6 py-4 font-display font-black uppercase tracking-wider text-sm border-r-3 border-zinc-950 dark:border-zinc-700 transition-colors whitespace-nowrap" data-target="executive">Executive Summary</button>
+            <button class="tab-btn px-6 py-4 font-display font-black uppercase tracking-wider text-sm border-r-3 border-zinc-950 dark:border-zinc-700 transition-colors whitespace-nowrap" data-target="komoditas">Commodity Impact</button>
+            <button class="tab-btn px-6 py-4 font-display font-black uppercase tracking-wider text-sm border-r-3 border-zinc-950 dark:border-zinc-700 transition-colors whitespace-nowrap" data-target="hama">Pest & Disease</button>
+            <button class="tab-btn px-6 py-4 font-display font-black uppercase tracking-wider text-sm border-r-3 border-zinc-950 dark:border-zinc-700 transition-colors whitespace-nowrap" data-target="mitigasi">Mitigation & Scenarios</button>
+            <button class="tab-btn px-6 py-4 font-display font-black uppercase tracking-wider text-sm border-zinc-950 transition-colors whitespace-nowrap" data-target="berita">News & Validation</button>
+        </nav>
+
+        <main id="content-area">
+
+            <section id="executive" class="space-y-8 block animate-fade-in">
+                <div class="bg-zinc-950 text-white p-4 brutal-border neo-shadow mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-orange-500"><use href="#icon-layers"></use></svg>
+                        <span class="font-display font-black uppercase tracking-widest text-sm">Intelligence Methodology:</span>
+                    </div>
+                    <p class="text-xs font-mono text-zinc-300 flex-1">
+                        Triangulated meteorological telemetry (BMKG, PAGASA, NOAA) + Historical Comparative Modeling (1997, 2015, 2023) + Ground-Truth Agronomic Verification.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white dark:bg-zinc-900 p-8 brutal-border neo-shadow">
+                            <h2 class="text-3xl font-display font-black uppercase mb-6 flex items-center gap-3">
+                                <svg class="w-8 h-8 text-red-600"><use href="#icon-alert"></use></svg> The "Double Jeopardy" Concept
+                            </h2>
+                            <p class="text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed mb-4">
+                                Indonesia is currently facing the convergence of two extreme climate phenomena that rarely occur simultaneously: <strong>El Niño 2026</strong> (predicted to last until early 2027) and high early-season typhoon activity, marked by <strong>Tropical Cyclone Mekkhala</strong>.
+                            </p>
+                            <p class="text-zinc-700 dark:text-zinc-300 font-medium leading-relaxed mb-6">
+                                Although Mekkhala will not hit land directly, the combination creates a <em>"double jeopardy"</em>: prolonged drought exacerbated by a shift in tropical wind patterns that moves the convection (rain) zone away from Indonesia.
+                            </p>
+                            <div class="bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 p-4">
+                                <h4 class="font-bold text-red-700 dark:text-red-400 mb-2 font-mono uppercase text-sm">Systemic Implications:</h4>
+                                <ul class="list-disc pl-5 text-sm space-y-1 text-red-900 dark:text-red-200">
+                                    <li>The exceptionally long drought duration directly threatens <strong>Planting Season (PS) II 2026</strong>.</li>
+                                    <li>Unlike 2015, crops face a "slow-burn" but persistent water stress.</li>
+                                    <li>Forest fire risks explode earlier in degraded peatland areas.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-950 text-white p-8 brutal-border neo-shadow">
+                            <h3 class="text-xl font-display font-black uppercase tracking-widest mb-6 border-b-2 border-zinc-700 pb-2">Historical Comparison (El Niño)</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm">
+                                    <thead>
+                                        <tr class="text-zinc-400 font-mono border-b border-zinc-700">
+                                            <th class="py-3 pr-4">Parameter</th>
+                                            <th class="py-3 px-4">2015-2016 (Godzilla)</th>
+                                            <th class="py-3 px-4">2023-2024</th>
+                                            <th class="py-3 pl-4 text-orange-400">2026-2027 (Current)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-zinc-800">
+                                        <tr>
+                                            <td class="py-3 pr-4 font-bold">Intensity</td>
+                                            <td class="py-3 px-4">Very Strong (+2.5°C)</td>
+                                            <td class="py-3 px-4">Strong</td>
+                                            <td class="py-3 pl-4 font-bold text-orange-400">Moderate (+1.0-1.5°C)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 pr-4 font-bold">Duration</td>
+                                            <td class="py-3 px-4">~18 Months</td>
+                                            <td class="py-3 px-4">~10 Months</td>
+                                            <td class="py-3 pl-4 font-bold text-orange-400">~15 Months (Persistent)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 pr-4 font-bold">IOD Status</td>
+                                            <td class="py-3 px-4">Positive (Amplifying)</td>
+                                            <td class="py-3 px-4">Positive</td>
+                                            <td class="py-3 pl-4 font-bold text-orange-400">Neutral</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 pr-4 font-bold">Forest Fires</td>
+                                            <td class="py-3 px-4">2.6 Million Ha</td>
+                                            <td class="py-3 px-4">~300,000 Ha</td>
+                                            <td class="py-3 pl-4 font-bold text-orange-400">81,000 Ha (first 5 months)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="bg-orange-100 dark:bg-orange-950/30 p-6 brutal-border neo-shadow border-orange-500">
+                            <h3 class="font-display font-black uppercase tracking-widest text-orange-600 dark:text-orange-400 text-sm mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5"><use href="#icon-wind"></use></svg> Typhoon Tracker
+                            </h3>
+                            <div class="text-2xl font-black mb-2 dark:text-white">Mekkhala (Francisco)</div>
+                            <div class="text-sm font-medium mb-4 pb-4 border-b-2 border-orange-200 dark:border-orange-900/50 dark:text-zinc-300">
+                                The first typhoon in 2026 bringing high waves (1.25-2.5m) to eastern Indonesian waters (Maluku/Papua), damaging coastal pond ecosystems and sucking atmospheric moisture away from southern regions.
+                            </div>
+                            <ul class="space-y-2 text-xs font-mono font-bold dark:text-zinc-400">
+                                <li class="flex justify-between"><span>Category:</span> <span class="text-orange-600 dark:text-orange-400">Cat 3-Equivalent</span></li>
+                                <li class="flex justify-between"><span>Wind Speed:</span> <span class="text-orange-600 dark:text-orange-400">70 Knots</span></li>
+                                <li class="flex justify-between"><span>ENSO Cycle:</span> <span class="text-orange-600 dark:text-orange-400">El Niño Transition</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-zinc-900 p-6 brutal-border neo-shadow">
+                            <h3 class="font-display font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400 text-sm mb-4">Voices from the Field</h3>
+                            <blockquote class="italic text-sm text-zinc-600 dark:text-zinc-300 border-l-4 border-zinc-950 dark:border-zinc-500 pl-3 mb-2">
+                                "It's been almost a month since the fields started drying up. During planting, there was still water reserves, but entering June, the rain stopped completely."
+                            </blockquote>
+                            <p class="text-xs font-bold text-right">— Saeran, Farmer in Natar (Lampung)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="komoditas" class="space-y-8 hidden animate-fade-in">
+                <div class="border-b-3 border-zinc-950 dark:border-zinc-700 pb-4">
+                    <h2 class="text-3xl font-display font-black text-zinc-950 dark:text-white uppercase tracking-tight flex items-center gap-3">
+                        <svg class="w-7 h-7 text-blue-600"><use href="#icon-layers"></use></svg> Key Commodity Vulnerabilities
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Rice -->
+                    <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow flex flex-col h-full">
+                        <div class="bg-amber-400 text-zinc-950 p-3 font-black uppercase text-sm tracking-widest border-b-3 border-zinc-950 flex items-center gap-2">
+                            <span>🌾</span> RICE
+                        </div>
+                        <div class="p-6 flex-1">
+                            <ul class="space-y-4 text-sm font-medium dark:text-zinc-300">
+                                <li><strong>Lampung (Natar):</strong> Rice at 25 DAP is turning yellow and faces mass crop failure. Farmers are operating pumps 24/7.</li>
+                                <li><strong>West Java:</strong> Drought hitting Bekasi, Cirebon, Kuningan purely due to rainfall deficits.</li>
+                                <li><strong>Central Java:</strong> Rainfall <50% of normal in rainfed zones.</li>
+                                <li><strong>East OKU:</strong> Local government preparing 1,000 water pumps & boreholes.</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-zinc-50 dark:bg-zinc-800 border-t-2 border-dashed border-zinc-300 dark:border-zinc-700 text-xs font-bold text-red-600 dark:text-red-400">
+                            Q3 2026 RISK: PLANTING SEASON II CROP FAILURE (VERY HIGH)
+                        </div>
+                    </div>
+
+                    <!-- Coffee -->
+                    <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow flex flex-col h-full">
+                        <div class="bg-zinc-950 text-white p-3 font-black uppercase text-sm tracking-widest border-b-3 border-zinc-950 flex items-center gap-2">
+                            <span>☕</span> COFFEE
+                        </div>
+                        <div class="p-6 flex-1">
+                            <ul class="space-y-4 text-sm font-medium dark:text-zinc-300">
+                                <li><strong>Global Supply:</strong> Australian BoM warns Super El Niño threatens global Robusta supply.</li>
+                                <li><strong>Robusta (Lampung/S. Sumatra):</strong> Coffee flowers dropping due to water stress, threatening fruit failure for next season's harvest.</li>
+                                <li><strong>Arabica (Toraja/Gayo):</strong> Temperature rise of 1-2°C accelerating abnormal bean ripening, lowering the *cupping score* quality profile.</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-zinc-50 dark:bg-zinc-800 border-t-2 border-dashed border-zinc-300 dark:border-zinc-700 text-xs font-bold text-red-600 dark:text-red-400">
+                            Q3 2026 RISK: PRODUCTION DROP, QUALITY SHRINKAGE (HIGH)
+                        </div>
+                    </div>
+
+                    <!-- Palm Oil -->
+                    <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow flex flex-col h-full">
+                        <div class="bg-emerald-500 text-zinc-950 p-3 font-black uppercase text-sm tracking-widest border-b-3 border-zinc-950 flex items-center gap-2">
+                            <span>🌴</span> PALM OIL
+                        </div>
+                        <div class="p-6 flex-1">
+                            <ul class="space-y-4 text-sm font-medium dark:text-zinc-300">
+                                <li><strong>Dry Effects:</strong> Predicted production drop of 5-10%. Plants produce more male flowers during water stress.</li>
+                                <li><strong>Smog Impact:</strong> Massive forest fires in Riau (607 hotspots) & West Kalimantan producing thick smog, blocking solar radiation & lowering photosynthesis rates.</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-zinc-50 dark:bg-zinc-800 border-t-2 border-dashed border-zinc-300 dark:border-zinc-700 text-xs font-bold text-orange-600 dark:text-orange-400">
+                            Q3 2026 RISK: MODERATE TONNAGE DROP (MODERATE)
+                        </div>
+                    </div>
+
+                    <!-- Chili & Vegetables -->
+                    <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow flex flex-col h-full">
+                        <div class="bg-red-500 text-white p-3 font-black uppercase text-sm tracking-widest border-b-3 border-zinc-950 flex items-center gap-2">
+                            <span>🌶️</span> CHILI & VEGETABLES
+                        </div>
+                        <div class="p-6 flex-1">
+                            <ul class="space-y-4 text-sm font-medium dark:text-zinc-300">
+                                <li><strong>Diseases:</strong> Low rainfall paradoxically increasing *Anthracnose* attacks due to drastic night dew fluctuations.</li>
+                                <li><strong>Pests:</strong> *Thrips* and *Aphid* populations exploding in hot dry conditions.</li>
+                                <li><strong>Prices:</strong> Predicted 30-50% price spike in Q3 due to local harvest failures.</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-zinc-50 dark:bg-zinc-800 border-t-2 border-dashed border-zinc-300 dark:border-zinc-700 text-xs font-bold text-red-600 dark:text-red-400">
+                            Q3 2026 RISK: EXTREME PRICE VOLATILITY (VERY HIGH)
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hama" class="space-y-8 hidden animate-fade-in">
+                <div class="border-b-3 border-zinc-950 dark:border-zinc-700 pb-4">
+                    <h2 class="text-3xl font-display font-black text-zinc-950 dark:text-white uppercase tracking-tight flex items-center gap-3">
+                        <svg class="w-7 h-7 text-green-600"><use href="#icon-bug"></use></svg> Pest & Disease Outbreak Predictions
+                    </h2>
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-medium">Higher temperatures (SST Anomaly +1.5°C) accelerate insect reproductive cycles, while water-stressed plants lose their natural immunity.</p>
+                </div>
+
+                <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-zinc-950 text-white font-mono text-[11px] uppercase tracking-widest">
+                                <tr>
+                                    <th class="p-4">Key Pest / Disease</th>
+                                    <th class="p-4">El Niño 2026 Impact</th>
+                                    <th class="p-4 text-center">Risk Level</th>
+                                    <th class="p-4">Prone Areas (Q3)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y-2 divide-zinc-100 dark:divide-zinc-800 font-medium dark:text-zinc-300">
+                                <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                                    <td class="p-4 font-bold">Brown Planthopper (BPH)</td>
+                                    <td class="p-4 text-xs leading-relaxed">Drought accelerates life cycle. Populations predicted to surge 2-3x compared to normal years.</td>
+                                    <td class="p-4 text-center"><span class="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 text-[10px] font-black uppercase">Very High</span></td>
+                                    <td class="p-4 text-xs">Java, S. Sumatra</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                                    <td class="p-4 font-bold">Agricultural Rats</td>
+                                    <td class="p-4 text-xs leading-relaxed">Drought destroys natural habitats, forcing massive migration into remaining irrigated rice fields.</td>
+                                    <td class="p-4 text-center"><span class="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 text-[10px] font-black uppercase">Very High</span></td>
+                                    <td class="p-4 text-xs">Java, Sumatra</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                                    <td class="p-4 font-bold">Rice Stem Borer</td>
+                                    <td class="p-4 text-xs leading-relaxed">Water-stressed rice plants release volatiles that act as strong *attractants* for moths.</td>
+                                    <td class="p-4 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-400 text-[10px] font-black uppercase">High</span></td>
+                                    <td class="p-4 text-xs">Lampung, W. Java</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                                    <td class="p-4 font-bold">Aphids & Thrips</td>
+                                    <td class="p-4 text-xs leading-relaxed">Hot and dry conditions highly favored for reproduction. Yellow virus transmission spiking sharply.</td>
+                                    <td class="p-4 text-center"><span class="px-2 py-1 bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-400 text-[10px] font-black uppercase">High</span></td>
+                                    <td class="p-4 text-xs">Chili & Onion Hubs</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                                    <td class="p-4 font-bold">Bacterial Leaf Blight (BLB)</td>
+                                    <td class="p-4 text-xs leading-relaxed">Strong winds (distant effect of Cyclone Mekkhala) cause micro-wounds on leaves, an entry point for bacteria.</td>
+                                    <td class="p-4 text-center"><span class="px-2 py-1 bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-400 text-[10px] font-black uppercase">Moderate</span></td>
+                                    <td class="p-4 text-xs">Central Java, E. Java</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mitigasi" class="space-y-8 hidden animate-fade-in">
+                <div class="border-b-3 border-zinc-950 dark:border-zinc-700 pb-4">
+                    <h2 class="text-3xl font-display font-black text-zinc-950 dark:text-white uppercase tracking-tight flex items-center gap-3">
+                        <svg class="w-7 h-7 text-indigo-600"><use href="#icon-shield"></use></svg> Action Plan & Scenarios
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow p-6">
+                        <h3 class="font-black text-lg mb-4 uppercase text-red-600 dark:text-red-400">Short Term (1-3 Months)</h3>
+                        <ul class="space-y-3 text-sm font-medium dark:text-zinc-300">
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Accelerate procurement of 15,000 water pumps in rice hubs (Lampung, W. Java, E. OKU).</li>
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Controlled *prescribed burning* in non-peatlands to prevent uncontrolled wildfires.</li>
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Massive monitoring of brown planthoppers in PS II.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow p-6">
+                        <h3 class="font-black text-lg mb-4 uppercase text-orange-600 dark:text-orange-400">Medium Term (3-6 Months)</h3>
+                        <ul class="space-y-3 text-sm font-medium dark:text-zinc-300">
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Massive distribution of drought-tolerant rice seeds (Inpari 30, Inpari 43).</li>
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Education on water-saving irrigation (drip irrigation, AWD).</li>
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Expansion of agricultural insurance to protect against mass El Niño crop failures.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white dark:bg-zinc-900 brutal-border neo-shadow p-6">
+                        <h3 class="font-black text-lg mb-4 uppercase text-emerald-600 dark:text-emerald-400">Long Term (>6 Months)</h3>
+                        <ul class="space-y-3 text-sm font-medium dark:text-zinc-300">
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Mitigation against Godzilla El Niño 2027-2028 threat (BRIN warning: 40% chance).</li>
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Massive restoration of 81,000 Ha post-fire areas (peatland focus).</li>
+                            <li class="flex gap-2 items-start"><span class="text-zinc-400">■</span> Development of integrated retention basin & deep well infrastructure.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="berita" class="space-y-8 hidden animate-fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-3 border-zinc-950 dark:border-zinc-700 pb-4">
+                    <div>
+                        <h2 class="text-3xl font-display font-black text-zinc-950 dark:text-white uppercase tracking-tight">Methodology & Validation</h2>
+                        <p class="text-sm text-zinc-500 mt-2 font-mono">Cross-verified from BMKG, BRIN, Ministry of Forestry, PAGASA, and National Media.</p>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-950 text-white p-8 brutal-border neo-shadow">
+                    <h3 class="text-xl font-display font-black uppercase tracking-widest mb-6 border-b-2 border-zinc-700 pb-2 flex items-center gap-3">
+                        <svg class="w-6 h-6 text-red-500"><use href="#icon-layers"></use></svg> Analytical Framework & Methodology
+                    </h3>
+                    <p class="text-zinc-300 font-medium leading-relaxed mb-6">
+                        This Agri-Intel Brief employs a multi-tiered data synthesis approach to accurately forecast and map agricultural risks associated with the 2026 climate anomalies. Our framework consists of four primary pillars:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-zinc-900 border-l-4 border-red-500 p-4">
+                            <h4 class="font-bold text-red-400 mb-2 font-mono uppercase text-sm">01. Meteorological Triangulation</h4>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Continuous aggregation of real-time telemetry and spatial data from global and regional authorities, including BMKG (Indonesia), PAGASA (Philippines), NOAA CPC (USA), and BoM (Australia). This ensures the "Double Jeopardy" vector is tracked with high fidelity.</p>
+                        </div>
+                        <div class="bg-zinc-900 border-l-4 border-orange-500 p-4">
+                            <h4 class="font-bold text-orange-400 mb-2 font-mono uppercase text-sm">02. Historical Comparative Modeling</h4>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Benchmarking current ENSO parameters (SST Anomalies, IOD status) against baseline empirical data from previous severe episodes (1997-1998, 2015-2016, 2023-2024) to project duration, intensity, and historical crop damage correlations.</p>
+                        </div>
+                        <div class="bg-zinc-900 border-l-4 border-teal-500 p-4">
+                            <h4 class="font-bold text-teal-400 mb-2 font-mono uppercase text-sm">03. Ground-Truth Verification</h4>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Integrating localized, qualitative field reports (e.g., agronomic stress indicators, pump usage rates, early leaf-yellowing from Lampung and West Java) to validate macro-models against actual micro-climate realities.</p>
+                        </div>
+                        <div class="bg-zinc-900 border-l-4 border-blue-500 p-4">
+                            <h4 class="font-bold text-blue-400 mb-2 font-mono uppercase text-sm">04. Pest & Disease Risk Matrix</h4>
+                            <p class="text-xs text-zinc-400 leading-relaxed">Utilizing epidemiological algorithms to assess the compounding effects of simultaneous drought (accelerated insect life cycles) and wind/moisture displacement (spore travel and mechanical plant wounding) on crop immunity.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-zinc-100 dark:bg-zinc-900/50 p-6 brutal-border neo-shadow">
+                    <h3 class="font-mono text-xs font-black uppercase tracking-widest text-zinc-500 mb-6">Live Feed Log (Validated Inputs)</h3>
+                    <div id="news-container" class="space-y-4">
+                        <!-- News items rendered here -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const newsData = [
+            { source: "BMKG", date: "Jun 22, 2026", title: "El Niño to Persist until Early 2027", content: "El Niño is predicted to persist until early 2027 with a 98% chance of reaching the moderate category. The peak of the dry season is July-September 2026.", tag: "VERIFIED" },
+            { source: "BMKG", date: "Jun 21, 2026", title: "Cyclone Mekkhala Category 3", content: "Tropical Cyclone Mekkhala from Seed 92W in the Philippine Sea reached Category 3. Wind speeds of 70 knots, not directly hitting Indonesian land.", tag: "VERIFIED" },
+            { source: "Kompas.com", date: "Jun 20, 2026", title: "Rice at 25 DAP Yellowing in Natar", content: "Rice fields in Natar, South Lampung are starting to completely dry up. Farmers are forced to operate pump machines 24/7 to save 25 DAP crops.", tag: "VERIFIED" },
+            { source: "BRIN", date: "Jun 20, 2026", title: "Low Probability of Godzilla El Niño in 2026", content: "The probability of a Super/Godzilla El Niño in 2026 is low (~27%), but the dry season is predicted to be longer due to neutral IOD.", tag: "VERIFIED" },
+            { source: "Reuters / BoM", date: "Jun 17, 2026", title: "Asian Temperature Threat", content: "Australian Bureau of Meteorology: Asia will be hit by extreme hot weather that is starting to disrupt the planting season for commodities.", tag: "VERIFIED" },
+            { source: "Min of Forestry", date: "Jun 15, 2026", title: "Forest Fires Reach 81,000 Ha", content: "The area of forest fires from January-May 2026 reached 81,077 Ha (a sharp increase from 10,444 ha in 2025). There are 2,312 hotspots dominant in Riau & West Kalimantan.", tag: "VERIFIED" }
+        ];
+
+        function renderNews() {
+            const container = document.getElementById('news-container');
+            container.innerHTML = newsData.map(news => `
+                <div class="bg-white dark:bg-zinc-950 p-4 border-2 border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row gap-4 relative">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-zinc-950 dark:bg-zinc-500"></div>
+                    <div class="md:w-32 flex-shrink-0 flex flex-col border-r-0 md:border-r border-dashed border-zinc-300 dark:border-zinc-700 pr-4 pl-2">
+                        <span class="text-[10px] font-mono font-bold text-zinc-500">${news.date}</span>
+                        <span class="text-[9px] font-black tracking-widest text-emerald-600 dark:text-emerald-400 mt-1 uppercase flex items-center gap-1"><svg class="w-3 h-3"><use href="#icon-alert"></use></svg> ${news.tag}</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-base mb-1 dark:text-white">${news.title}</h4>
+                        <p class="text-xs text-zinc-600 dark:text-zinc-400 mb-2 leading-relaxed">${news.content}</p>
+                        <span class="text-[10px] font-mono text-zinc-400 uppercase font-bold">Source: ${news.source}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Tab Navigation Logic
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('main > section');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                sections.forEach(sec => {
+                    if(sec.id === targetId) {
+                        sec.classList.remove('hidden');
+                        sec.classList.add('block');
+                    } else {
+                        sec.classList.remove('block');
+                        sec.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Initialize App
+        window.onload = () => {
+            setInterval(() => { 
+                document.getElementById('live-clock').textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second:'2-digit' }) + ' WIB'; 
+            }, 1000);
+
+            let theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon-light').classList.add('hidden');
+                document.getElementById('theme-icon-dark').classList.remove('hidden');
+            }
+
+            document.getElementById('theme-toggle').addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                document.getElementById('theme-icon-light').classList.toggle('hidden');
+                document.getElementById('theme-icon-dark').classList.toggle('hidden');
+            });
+
+            document.getElementById('print-document-btn').addEventListener('click', () => window.print());
+
+            renderNews();
+        };
+    </script>
+</body>
+</html>
